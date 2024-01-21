@@ -1,61 +1,15 @@
-<!DOCTYPE html>
-<html>
-    <head>
-    <title>Tambah Data </title>
-</head>
-<body>
-    <h1>Tambah Data Barang</h1>
-    <?php
-    include 'koneksi.php';
-    ?>
-    <br/>
-    <a href="tambahdata.php">Tambah Data</a>
-    <br/><br/>
-    <table border="1" cellpadding="10">
-        <tr>
-            <th>No</th>
-            <th>Kode Barang</th>
-            <th>Nama Barang</th>
-            <th>Kategori</th>
-            <th>Satuan</th>
-            <th>Harga Modal</th>
-            <th>Harga Jual</th>
-            <th>Gambar</th>
-            <th>Action</th>
-        </tr>
-
-        <?php
-        $no = 1;
-        $data = mysqli_query($koneksi,"select * from tb_barang");
-        while($d = mysqli_fetch_array($data)){
-            ?>
-
-
-            <tr>
-                <td><?php echo $no++; ?></td>
-                <td><?php echo $d['kd_barang']; ?></td>
-                <td><?php echo $d['nm_barang']; ?></td>
-
-                <td><?php echo $d['kategori']; ?></td>
-                <td><?php echo $d['satuan']; ?></td>
-                <td><?php echo "Rp. " . number_format ($d['hrg_modal']); ?></td>
-                <td><?php echo "Rp. " . number_format ($d['hrg_jual']); ?></td>
-
-                    <td>
-                        <img src="<?php echo "file/".$d['gambar']; ?>" width="80" height="80" >
-                    </td>
-                    <td>
-                        <a href="edit_databarang.php?id=<?php echo $d['kd_barang']; 
-                        ?>">Edit</a> |
-                        <a href="proses_hapus.php?id=<?php echo $d['kd_barang']; ?>"
-                        onclick="return confirm ('Anda yakin akan menghapus data ini? \n<?php echo $d['kd_barang']; ?>')">Hapus</a>
-                        </td>
-                    </tr>
-                    <?php } ?>
-                </table>
-                <br/>
-                <?php
-                echo "Total data : ". mysqli_num_rows($data)." BARANG";
-                ?>
-                </body>
-                </html>
+<?php
+include 'koneksi.php';
+session_start();
+//pemeriksaan session
+if (isset($_SESSION['login'])) { //jika sudah login
+//menampilkan isi session
+echo "<h1>Selamat Datang ". $_SESSION['login'] ."</h1>";
+echo "<h2>Halaman ini hanya bisa diakses jika Anda sudah login</h2>";
+echo "<h2>Klik <a href='logout.php'>di sini untuk LOGOUT</a> </h2>";
+} else {
+//session belum ada artinya belum login
+die ("Anda belum login! <h2>Anda tidak berhak masuk ke halaman
+ini.</h2>Silahkan login <a href='login.php'>di sini</a>");
+}
+?>
